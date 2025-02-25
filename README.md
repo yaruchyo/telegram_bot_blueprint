@@ -2,7 +2,12 @@
 
 ## Description
 
-This project implements a Telegram bot that leverages the Gemini language model for generating responses to user input. It utilizes FastAPI as a web framework for handling webhook requests from Telegram. The bot is designed to be configurable for both development and production environments, using environment variables for sensitive information like API keys and tokens.
+This project implements a Telegram bot that integrates with the Gemini language model to generate responses to user input. It uses FastAPI to handle Telegram webhook requests. The bot is designed to be configurable for both development and production environments, utilizing environment variables for sensitive information like API keys and tokens.
+
+To obtain the necessary credentials:
+
+*   **Gemini API Key:**  Visit [https://aistudio.google.com/](https://aistudio.google.com/) to generate your Gemini API key.
+*   **Telegram Bot Token:** Use [BotFather](https://t.me/BotFather) on Telegram to create your bot and obtain its token.
 
 ## Features
 
