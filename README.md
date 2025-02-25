@@ -1,4 +1,4 @@
-# Telegram Bot with Gemini Integration
+# Telegram Bot with Gemini Integration and with deployment on vercel
 
 To obtain the necessary credentials:
 
