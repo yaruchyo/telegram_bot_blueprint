@@ -46,7 +46,7 @@ async def text_input_handler(update: Update, context: ContextTypes.DEFAULT_TYPE,
     texts = text_splitter.create_documents([result])
 
     for text in texts:
-        await reply_method.reply_to_message(
+        await reply_method.send_direct_message(
             reply_text=text.page_content,
         )
 def register_app(application) -> None:
