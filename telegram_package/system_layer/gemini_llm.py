@@ -8,14 +8,17 @@ class GeminiLLM:
 
         self.model_name = 'gemini-2.0-flash'
         self.config = genai.types.GenerateContentConfig(
-            temperature=1
+            temperature=1,
+            system_instruction="Generate the answer within 750 characters."
         )
 
         self.client = genai.Client(api_key=GEMINI_API_KEY)
 
     def generate_llm_answer(self, input_message):
+
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
+            model=self.model_name,
+            config=self.config,
             contents=input_message
         )
         return response.text
