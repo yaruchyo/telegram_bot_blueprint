@@ -5,6 +5,7 @@ from telegram_package.repository_layer.decorator import authenticator
 from telegram.ext import MessageHandler, filters
 from telegram_package import config, llm
 from telegram_package.domain_layer.reply_method_domain import ReplyMethod
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send the main menu with a custom keyboard."""
@@ -36,7 +37,18 @@ async def text_input_handler(update: Update, context: ContextTypes.DEFAULT_TYPE,
     """Handle user's wishlist input."""
     input_text = update.message.text
     result = llm.generate_llm_answer(input_text)
-    await reply_method.reply_to_message(result)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=4024,
+        chunk_overlap=0,
+        length_function=len,
+        is_separator_regex=False,
+    )
+    texts = text_splitter.create_documents([result])
+
+    for text in texts:
+        await reply_method.reply_to_message(
+            reply_text=text.page_content,
+        )
 def register_app(application) -> None:
     """Start the bot."""
     application.add_handler(CommandHandler("start", start))
