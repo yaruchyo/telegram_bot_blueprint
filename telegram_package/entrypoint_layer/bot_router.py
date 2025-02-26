@@ -35,20 +35,25 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_metho
 @authenticator
 async def text_input_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_method: ReplyMethod) -> None:
     """Handle user's wishlist input."""
-    input_text = update.message.text
-    result = llm.generate_llm_answer(input_text)
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=4024,
-        chunk_overlap=0,
-        length_function=len,
-        is_separator_regex=False,
-    )
-    texts = text_splitter.create_documents([result])
-
-    for text in texts:
-        await reply_method.send_direct_message(
-            reply_text=text.page_content,
+    try:
+        input_text = update.message.text
+        result = llm.generate_llm_answer(input_text)
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=4024,
+            chunk_overlap=0,
+            length_function=len,
+            is_separator_regex=False,
         )
+        texts = text_splitter.create_documents([result])
+
+        for text in texts:
+            await reply_method.send_direct_message(
+                reply_text=text.page_content,
+            )
+    except Exception as e:
+        print(e)
+        return None
+
 def register_app(application) -> None:
     """Start the bot."""
     application.add_handler(CommandHandler("start", start))
